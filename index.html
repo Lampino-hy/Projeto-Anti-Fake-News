@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Anti-Fake News</title>
+    <style>
+        /* Configurações Gerais - Fundo Limpo e Moderno */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #38bdf8;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        p.subtitulo {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* Container dos Cartões */
+        .container-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Estrutura do Cartão (Flip Card) */
+        .card {
+            background-color: transparent;
+            width: 350px;
+            height: 450px;
+            perspective: 1500px; /* Aumentado para melhorar a renderização 3D */
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* O cartão vira ao passar o mouse */
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Força o cartão a ficar virado quando o usuário clica no verso para digitar */
+        .card-inner.focado {
+            transform: rotateY(180deg) !important;
+        }
+
+        /* Faces do Cartão */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 25px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Lado da Frente (Vermelho - ALERTA FAKE) */
+        .card-front {
+            background: linear-gradient(135deg, #dc2626, #7f1d1d);
+            color: white;
+        }
+
+        /* Lado de Trás (Verde - FATO VERIFICADO) */
+        .card-back {
+            background: linear-gradient(135deg, #16a34a, #14532d);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .alerta-tag {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .noticia-texto {
+            font-size: 1rem;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: left;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        /* Campo de Texto para Anotações */
+        textarea {
+            width: 100%;
+            height: 100px;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #0f172a;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        textarea:focus {
+            outline: 2px solid #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="
+    color: #fff;
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+    text-shadow: 
+        0 0 5px #e1f7fd,
+        0 0 10px #38bdf8,
+        0 0 20px #38f848,
+        0 0 40px #3865f8;
+">Monitor Anti-Fake News</h1>
+        <p class="subtitulo">Passe o mouse sobre os cartões para revelar o Fato por trás do boato e use o espaço para fazer suas anotações de estudo.</p>
+    </header>
+
+    <div class="container-cards">
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div>
+                        <span class="alerta-tag">🚨 RUMOR ADULTERADO</span>
+                        <h3>Fake News</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        "Imagens de satélite provam que uma nova ilha surgiu no Atlântico após terremoto nesta semana!"
+                    </div>
+                    <textarea placeholder="Anote aqui seus pontos de dúvida sobre essa notícia..."></textarea>
+                </div>
+                <div class="card-back">
+                    <div>
+                        <span class="alerta-tag" style="background: rgba(255,255,255,0.2);">✅ FATO REAL</span>
+                        <h3>Verdade</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        A foto usada é antiga (de 2015) e mostra uma formação vulcânica no Japão. Nenhum satélite registrou novas ilhas recentemente.
+                    </div>
+                    <textarea placeholder="Escreva os argumentos para desmentir esse boato..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div>
+                        <span class="alerta-tag">🚨 ÁUDIO FALSO</span>
+                        <h3>Fake News</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        "Áudio que circula no WhatsApp diz que o governo vai bloquear as redes sociais a partir de amanhã à noite."
+                    </div>
+                    <textarea placeholder="Anote aqui seus pontos de dúvida sobre essa notícia..."></textarea>
+                </div>
+                <div class="card-back">
+                    <div>
+                        <span class="alerta-tag" style="background: rgba(255,255,255,0.2);">✅ FATO REAL</span>
+                        <h3>Verdade</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        O áudio usa uma voz gerada por inteligência artificial simulando um portal jornalístico. Nenhuma lei ou decreto prevê esse bloqueio.
+                    </div>
+                    <textarea placeholder="Escreva os argumentos para desmentir esse boato..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div>
+                        <span class="alerta-tag">🚨 COMPARTILHAMENTO VELHO</span>
+                        <h3>Fake News</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        "Urgente: Alerta de tempestade catastrófica com ventos de 150 km/h direcionada para a região sudeste amanhã!"
+                    </div>
+                    <textarea placeholder="Anote aqui seus pontos de dúvida sobre essa notícia..."></textarea>
+                </div>
+                <div class="card-back">
+                    <div>
+                        <span class="alerta-tag" style="background: rgba(255,255,255,0.2);">✅ FATO REAL</span>
+                        <h3>Verdade</h3>
+                    </div>
+                    <div class="noticia-texto">
+                        A notícia real é de um ciclone que aconteceu há 4 anos. Estão compartilhando o texto antigo como se fosse uma previsão atual.
+                    </div>
+                    <textarea placeholder="Escreva os argumentos para desmentir esse boato..."></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* Esse script corrige o bug de digitação: quando você clica na caixa de texto do verso, 
+           o cartão não desvira sozinho se você mover o mouse de lugar sem querer. */
+        document.querySelectorAll('.card-back textarea').forEach(textarea => {
+            textarea.addEventListener('focus', () => {
+                textarea.closest('.card-inner').classList.add('focado');
+            });
+            textarea.addEventListener('blur', () => {
+                textarea.closest('.card-inner').classList.remove('focado');
+            });
+        });
+    </script>
+
+</body>
+</html>
